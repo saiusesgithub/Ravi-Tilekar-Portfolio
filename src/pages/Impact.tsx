@@ -43,11 +43,10 @@ export default function Impact() {
                 <button
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  className={`p-4 rounded-lg border text-left transition-all ${
-                    activeCategory === category.id
+                  className={`p-4 rounded-lg border text-left transition-all ${activeCategory === category.id
                       ? 'border-primary bg-primary/5'
                       : 'hover:border-primary/50'
-                  }`}
+                    }`}
                 >
                   <Icon className={`h-6 w-6 mb-2 ${activeCategory === category.id ? 'text-primary' : 'text-muted-foreground'}`} />
                   <div className="font-semibold text-sm">{category.title}</div>
@@ -80,8 +79,15 @@ export default function Impact() {
           <h2 className="font-serif text-2xl font-semibold mb-6">Moments of Impact</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {impactImages.slice(0, 8).map(image => (
-              <div key={image.id} className="aspect-square bg-secondary rounded-lg flex items-center justify-center">
-                <span className="text-muted-foreground text-sm">{image.alt}</span>
+              <div key={image.id} className="aspect-square relative overflow-hidden rounded-lg group">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center">
+                  <span className="text-white text-xs font-medium">{image.alt}</span>
+                </div>
               </div>
             ))}
           </div>

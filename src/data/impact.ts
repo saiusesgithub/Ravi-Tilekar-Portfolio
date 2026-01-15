@@ -80,12 +80,12 @@ export const impactStats: ImpactStat[] = [
 ];
 
 export const impactImages: ImpactImage[] = [
-  { id: 'img-1', src: '/placeholder.svg', alt: 'Workshop session with students', category: 'education' },
-  { id: 'img-2', src: '/placeholder.svg', alt: 'Startup pitch event', category: 'entrepreneurship' },
-  { id: 'img-3', src: '/placeholder.svg', alt: 'Youth leadership camp', category: 'youth' },
-  { id: 'img-4', src: '/placeholder.svg', alt: 'Rural community workshop', category: 'community' },
-  { id: 'img-5', src: '/placeholder.svg', alt: 'Mentorship session', category: 'entrepreneurship' },
-  { id: 'img-6', src: '/placeholder.svg', alt: 'College entrepreneurship cell launch', category: 'education' },
-  { id: 'img-7', src: '/placeholder.svg', alt: 'Women entrepreneur meetup', category: 'community' },
-  { id: 'img-8', src: '/placeholder.svg', alt: 'Student innovation showcase', category: 'youth' },
+  { id: 'img-1', src: '/images/speaking2.jpeg', alt: 'Workshop session with students', category: 'education' },
+  { id: 'img-2', src: '/images/speaking4.jpeg', alt: 'Startup pitch event', category: 'entrepreneurship' },
+  { id: 'img-3', src: '/images/speaking5.jpeg', alt: 'Youth leadership camp', category: 'youth' },
+  { id: 'img-4', src: '/images/speaking6.jpeg', alt: 'Rural community workshop', category: 'community' },
+  { id: 'img-5', src: '/images/speaking7.jpeg', alt: 'Mentorship session', category: 'entrepreneurship' },
+  { id: 'img-6', src: '/images/c2b80b55-54d7-4d6d-9793-318956463d41.jpeg', alt: 'College entrepreneurship cell launch', category: 'education' },
+  { id: 'img-7', src: '/images/e295f6eb-9325-4984-a801-28bc4fa0d586.jpeg', alt: 'Women entrepreneur meetup', category: 'community' },
+  { id: 'img-8', src: '/images/b68a0013-06aa-4022-81ba-f8baea159320.jpeg', alt: 'Student innovation showcase', category: 'youth' },
 ];

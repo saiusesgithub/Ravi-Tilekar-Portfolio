@@ -28,6 +28,12 @@ export default function Index() {
   const featuredWritings = writings.filter(w => w.featured).slice(0, 6);
 
   useEffect(() => {
+    // Preload images
+    heroImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
     }, 5000);

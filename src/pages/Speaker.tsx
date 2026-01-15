@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Rocket, Lightbulb, Star, Users, Mic, MapPin } from 'lucide-react';
-import { speakingTopics, speakingEvents, speakerStats } from '@/data/speaker';
+import { Rocket, Lightbulb, Star, Users, Mic, MapPin, Calendar } from 'lucide-react';
+import { speakingTopics, speakingEvents, speakerStats, speakerGallery } from '@/data/speaker';
 import { toast } from 'sonner';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -67,16 +67,48 @@ export default function Speaker() {
         </div>
       </section>
 
-      {/* Recent Events */}
-      <section className="mb-16 bg-secondary/30 -mx-4 px-4 py-12 md:-mx-8 md:px-8">
+      {/* Recent Events List */}
+      <section className="mb-16">
         <h2 className="font-serif text-2xl font-semibold mb-6 text-center">Recent Appearances</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
           {speakingEvents.slice(0, 6).map(event => (
-            <div key={event.id} className="aspect-video bg-background rounded-lg border flex items-center justify-center p-4 text-center">
-              <div>
-                <div className="font-semibold text-sm">{event.eventName}</div>
-                <div className="text-xs text-muted-foreground">{event.venue}</div>
-              </div>
+            <Card key={event.id} className="bg-secondary/30 border-none">
+              <CardContent className="p-6 flex items-start gap-4">
+                <div className="min-w-[4px] h-12 bg-primary rounded-full mt-1" />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-semibold text-lg">{event.eventName}</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded bg-background border uppercase tracking-wider">{event.type}</span>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {event.date}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {event.venue}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Gallery - In Action */}
+      <section className="mb-16">
+        <h2 className="font-serif text-2xl font-semibold mb-6 text-center">In Action</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {speakerGallery.map((src, index) => (
+            <div key={index} className={`relative overflow-hidden rounded-lg group ${index === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}>
+              <img
+                src={src}
+                alt="Speaking engagement"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 aspect-[4/3]"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
             </div>
           ))}
         </div>
