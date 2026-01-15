@@ -13,10 +13,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const heroImages = [
-  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=2070",
-  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=2032",
-  "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=2073",
-  "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=2070"
+  "/images/speaking.jpeg",
+  "/images/award1.jpeg",
+  "/images/56cb8460-4c3c-4a03-a703-d8c2cd339f18.jpeg",
+  "/images/speaking3.jpeg",
+  "/images/805359ea-e48d-4f65-b6cb-494e1637c741.jpeg",
+  "/images/award2.jpeg"
 ];
 
 export default function Index() {
