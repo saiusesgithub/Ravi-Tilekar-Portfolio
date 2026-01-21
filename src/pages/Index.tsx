@@ -47,7 +47,7 @@ export default function Index() {
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-end pb-24 md:pb-32 overflow-hidden">
         {/* Background Carousel */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -70,52 +70,54 @@ export default function Index() {
         <div className="absolute inset-0 bg-black/60 z-10" />
 
         {/* Content */}
-        <div className="container relative z-20 max-w-4xl text-center text-white">
-          {/* Mode Toggle */}
-          <div className="inline-flex rounded-full border border-white/20 p-1 mb-8 bg-black/30 backdrop-blur-sm">
-            <button
-              onClick={() => setMode('builder')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'builder' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                }`}
+        <div className="container relative z-20 max-w-6xl">
+          <div className="max-w-xl">
+            {/* Mode Toggle */}
+            <div className="inline-flex rounded-full border border-white/20 p-1 mb-8 bg-black/30 backdrop-blur-sm">
+              <button
+                onClick={() => setMode('builder')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'builder' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+                  }`}
+              >
+                Builder
+              </button>
+              <button
+                onClick={() => setMode('writer')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'writer' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+                  }`}
+              >
+                Writer
+              </button>
+            </div>
+
+            <motion.h1
+              key={mode + '-title'}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-3 tracking-tight text-white drop-shadow-sm text-left"
             >
-              Builder
-            </button>
-            <button
-              onClick={() => setMode('writer')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'writer' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                }`}
+              {hero.headline}
+            </motion.h1>
+
+            <motion.p
+              key={mode + '-subtitle'}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="text-sm md:text-base text-gray-200 mb-6 leading-relaxed drop-shadow-sm text-left"
             >
-              Writer
-            </button>
-          </div>
+              {hero.subtitle}
+            </motion.p>
 
-          <motion.h1
-            key={mode + '-title'}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="font-serif text-4xl md:text-5xl lg:text-7xl font-semibold leading-tight mb-6 tracking-tight text-white drop-shadow-sm"
-          >
-            {hero.headline}
-          </motion.h1>
-
-          <motion.p
-            key={mode + '-subtitle'}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-lg md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-sm"
-          >
-            {hero.subtitle}
-          </motion.p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="text-base bg-white text-black hover:bg-white/90 border-transparent h-12 px-8">
-              <Link to="/writings/poems">Explore Writings</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="text-base border-white text-white hover:bg-white/10 hover:text-white h-12 px-8 bg-transparent">
-              <Link to="/speaker">Invite for Talk</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button asChild size="lg" className="text-base bg-white text-black hover:bg-white/90 border-transparent h-12 px-8">
+                <Link to="/writings/poems">Explore Writings</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="text-base border-white text-white hover:bg-white/10 hover:text-white h-12 px-8 bg-transparent">
+                <Link to="/speaker">Invite for Talk</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

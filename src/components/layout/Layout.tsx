@@ -8,8 +8,8 @@ export function Layout() {
 
   useEffect(() => {
     const saved = localStorage.getItem('theme');
-    // Default to dark mode if no preference is saved, or if saved as dark
-    if (!saved || saved === 'dark') {
+    // Default to light mode if no preference is saved, or if saved as light
+    if (saved === 'dark') {
       setIsDark(true);
       document.documentElement.classList.add('dark');
     } else {
