@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,16 +6,19 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import SignatureIntro from "@/components/ui/signatureIntro";
-import Index from "./pages/Index";
-import WritingsList from "./pages/WritingsList";
-import WritingDetail from "./pages/WritingDetail";
-import Books from "./pages/Books";
-import Journey from "./pages/Journey";
-import Impact from "./pages/Impact";
-import Speaker from "./pages/Speaker";
-import Gallery from "./pages/Gallery";
-import Awards from "./pages/Awards";
-import NotFound from "./pages/NotFound";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+
+// Route-based code splitting
+const Index = lazy(() => import("./pages/Index"));
+const WritingsList = lazy(() => import("./pages/WritingsList"));
+const WritingDetail = lazy(() => import("./pages/WritingDetail"));
+const Books = lazy(() => import("./pages/Books"));
+const Journey = lazy(() => import("./pages/Journey"));
+const Impact = lazy(() => import("./pages/Impact"));
+const Speaker = lazy(() => import("./pages/Speaker"));
+const Gallery = lazy(() => import("./pages/Gallery"));
+const Awards = lazy(() => import("./pages/Awards"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -27,28 +30,140 @@ const App = () => {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Index />} />
-              <Route path="/writings/:category" element={<WritingsList />} />
-              <Route path="/writing/:id" element={<WritingDetail />} />
-              <Route path="/books" element={<Books />} />
-              <Route path="/journey" element={<Journey />} />
-              <Route path="/impact" element={<Impact />} />
-              <Route path="/speaker" element={<Speaker />} />
-              <Route path="/events/gallery" element={<Gallery />} />
-              <Route path="/events/awards" element={<Awards />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route
+                  path="/"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="min-h-screen flex items-center justify-center">
+                          Loading…
+                        </div>
+                      }
+                    >
+                      <Index />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/writings/:category"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <WritingsList />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/writing/:id"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <WritingDetail />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/books"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <Books />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/journey"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <Journey />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/impact"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <Impact />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/speaker"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <Speaker />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/events/gallery"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <Gallery />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/events/awards"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="py-20 text-center">Loading…</div>
+                      }
+                    >
+                      <Awards />
+                    </Suspense>
+                  }
+                />
+              </Route>
+              <Route
+                path="*"
+                element={
+                  <Suspense
+                    fallback={<div className="py-20 text-center">Loading…</div>}
+                  >
+                    <NotFound />
+                  </Suspense>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 
