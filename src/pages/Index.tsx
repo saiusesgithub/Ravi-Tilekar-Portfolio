@@ -122,26 +122,47 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Highlights Strip */}
-      <section className="py-12 bg-secondary/30">
+      {/* As Featured On */}
+      <section className="py-10 bg-secondary/20 border-y border-border/40">
         <div className="container">
-          <div className="flex flex-wrap justify-center gap-6">
-            {visibleHighlights.map((card) => {
-              const Icon = iconMap[card.icon];
-              return (
-                <Card key={card.id} className="card-hover border-transparent shadow-sm bg-card/50 backdrop-blur-sm w-full sm:w-[calc(50%-1.5rem)] md:w-64">
-                  <CardContent className="p-6 text-center">
-                    <Icon className="h-8 w-8 mx-auto mb-3 text-primary" />
-                    <div className="font-serif text-3xl font-semibold mb-1">{card.value}</div>
-                    <div className="text-sm font-medium">{card.title}</div>
-                    <div className="text-xs text-muted-foreground mt-1">{card.description}</div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <p className="text-center text-sm md:text-base uppercase tracking-widest text-muted-foreground mb-8 font-semibold">
+            As Featured On
+          </p>
+          <div className="flex items-center justify-between gap-2 md:gap-3 lg:gap-4 max-w-full overflow-hidden">
+            <img
+              src="/logos/fortune.webp"
+              alt="Fortune"
+              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
+            />
+            <img
+              src="/logos/bbc.webp"
+              alt="BBC"
+              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
+            />
+            <img
+              src="/logos/moneycontrol.webp"
+              alt="MoneyControl"
+              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
+            />
+            <img
+              src="/logos/economic times.webp"
+              alt="The Economic Times"
+              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
+            />
+            <img
+              src="/logos/mint.webp"
+              alt="Mint"
+              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
+            />
+            <img
+              src="/logos/ndtv.webp"
+              alt="NDTV"
+              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
+            />
           </div>
         </div>
       </section>
+
 
       {/* Featured Writings */}
       <section className="py-20">
