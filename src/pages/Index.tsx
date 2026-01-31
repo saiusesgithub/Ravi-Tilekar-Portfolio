@@ -1,16 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TrendingUp, Briefcase, Heart, Feather, ArrowRight, Lightbulb, BookOpen, Mic, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { heroContent, highlightCards } from '@/data/home';
-import { writings } from '@/data/writings';
-import { journeyMilestones } from '@/data/journey';
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  TrendingUp, Briefcase, Heart, Feather,
-};
+import { heroContent } from '@/data/home';
+import { ContactDialog } from '@/components/home/ContactDialog';
+import { BuilderView } from '@/components/home/BuilderView';
+import { WriterView } from '@/components/home/WriterView';
 
 const heroImages = [
   "/images/speaking.jpeg",
@@ -18,84 +11,53 @@ const heroImages = [
   "/images/56cb8460-4c3c-4a03-a703-d8c2cd339f18.jpeg",
   "/images/speaking3.jpeg",
   "/images/805359ea-e48d-4f65-b6cb-494e1637c741.jpeg",
-  "/images/award2.jpeg"
 ];
 
 export default function Index() {
   const [mode, setMode] = useState<'builder' | 'writer'>('builder');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const hero = heroContent[mode];
-  const featuredWritings = writings.filter(w => w.featured).slice(0, 6);
 
+  // Image rotation effect
   useEffect(() => {
-    // Preload images
-    heroImages.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
-
-    const timer = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
     }, 5000);
-    return () => clearInterval(timer);
+    return () => clearInterval(interval);
   }, []);
 
-  const visibleHighlights = highlightCards.filter(
-    card => card.mode === 'both' || card.mode === mode
-  );
-
   return (
-    <div className="animate-fade-in">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-end pb-24 md:pb-32 overflow-hidden">
-        {/* Background Carousel */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentImageIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0 z-0"
-          >
-            <img
-              src={heroImages[currentImageIndex]}
-              alt="Hero background"
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        </AnimatePresence>
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/20">
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Images with Fade */}
+        <div className="absolute inset-0 z-0">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentImageIndex}
+              src={heroImages[currentImageIndex]}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              className="w-full h-full object-cover opacity-50"
+              alt="Background"
+            />
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-black/60 z-10" />
+        </div>
 
         {/* Content */}
         <div className="container relative z-20 max-w-6xl">
           <div className="max-w-xl">
-            {/* Mode Toggle */}
-            <div className="inline-flex rounded-full border border-white/20 p-1 mb-8 bg-black/30 backdrop-blur-sm">
-              <button
-                onClick={() => setMode('builder')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'builder' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                  }`}
-              >
-                Builder
-              </button>
-              <button
-                onClick={() => setMode('writer')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'writer' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                  }`}
-              >
-                Writer
-              </button>
-            </div>
-
             <motion.h1
               key={mode + '-title'}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-3 tracking-tight text-white drop-shadow-sm text-left"
+              className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-3 tracking-tight text-white drop-shadow-sm text-left mt-32 md:mt-48"
             >
               {hero.headline}
             </motion.h1>
@@ -105,192 +67,42 @@ export default function Index() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="text-sm md:text-base text-gray-200 mb-6 leading-relaxed drop-shadow-sm text-left"
+              className="text-sm md:text-lg text-white/90 mb-8 leading-relaxed drop-shadow-sm text-left max-w-lg"
             >
               {hero.subtitle}
             </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="text-base bg-white text-black hover:bg-white/90 border-transparent h-12 px-8">
-                <Link to="/writings/poems">Explore Writings</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="text-base border-white text-white hover:bg-white/10 hover:text-white h-12 px-8 bg-transparent">
-                <Link to="/speaker">Invite for Talk</Link>
-              </Button>
+            {/* Mode Toggle */}
+            <div className="flex justify-center w-full">
+              <div className="inline-flex rounded-full border border-white/20 p-1 mb-2 bg-black/30 backdrop-blur-sm">
+                <button
+                  onClick={() => setMode('builder')}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'builder' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+                    }`}
+                >
+                  Builder
+                </button>
+                <button
+                  onClick={() => setMode('writer')}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${mode === 'writer' ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+                    }`}
+                >
+                  Writer
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* As Featured On */}
-      <section className="py-10 bg-secondary/20 border-y border-border/40">
-        <div className="container">
-          <p className="text-center text-sm md:text-base uppercase tracking-widest text-muted-foreground mb-8 font-semibold">
-            As Featured On
-          </p>
-          <div className="flex items-center justify-between gap-2 md:gap-3 lg:gap-4 max-w-full overflow-hidden">
-            <img
-              src="/logos/fortune.webp"
-              alt="Fortune"
-              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
-            />
-            <img
-              src="/logos/bbc.webp"
-              alt="BBC"
-              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
-            />
-            <img
-              src="/logos/moneycontrol.webp"
-              alt="MoneyControl"
-              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
-            />
-            <img
-              src="/logos/economic times.webp"
-              alt="The Economic Times"
-              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
-            />
-            <img
-              src="/logos/mint.webp"
-              alt="Mint"
-              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
-            />
-            <img
-              src="/logos/ndtv.webp"
-              alt="NDTV"
-              className="h-5 md:h-7 lg:h-9 w-auto max-w-[14%] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 flex-shrink"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Personal Introduction */}
-      <section className="py-20 bg-background">
-        <div className="container max-w-5xl">
-          {/* Name Heading */}
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-6 text-foreground">
-            Ravi Tilekar
-          </h2>
-
-          {/* Bio Description */}
-          <p className="text-center text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto mb-8">
-            Ravi is an entrepreneur, ecosystem builder, and mentor based in India. He is the founder of StartupsIndia and IEC, empowering 50,000+ aspiring entrepreneurs. He is also a bestselling author and writes poems, shayari, songs, and stories. His aim through his work is to inspire people to pursue their dreams with awareness, not ignorance.
-          </p>
-
-          {/* Signature */}
-          <div className="text-center mb-12">
-            <div className="inline-block" style={{ fontFamily: "'Great Vibes', cursive", fontSize: '2.5rem', color: 'hsl(var(--primary))' }}>
-              Ravi Tilekar
-            </div>
-          </div>
-
-          {/* Four Pillars Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
-            {/* Entrepreneur */}
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                <Lightbulb className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-semibold mb-3 text-foreground">Entrepreneur</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Founder of StartupsIndia, empowering 50,000+ aspiring entrepreneurs. Built ventures across education, technology, and social impact sectors since 2008.
-              </p>
-            </div>
-
-            {/* Writer */}
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                <BookOpen className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-semibold mb-3 text-foreground">Writer</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Author of multiple books and 500+ original writings including poems, shayari, songs, and stories that capture the spirit of ambition and the human journey.
-              </p>
-            </div>
-
-            {/* Speaker */}
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                <Mic className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-semibold mb-3 text-foreground">Speaker</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Keynote speaker at national and international events, inspiring audiences with insights on entrepreneurship, leadership, and personal growth.
-              </p>
-            </div>
-
-            {/* Ecosystem Builder */}
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                <Users className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-semibold mb-3 text-foreground">Ecosystem Builder</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Building India's entrepreneurial ecosystem through IEC, mentoring startups, and creating platforms that connect dreamers with opportunities.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Featured Writings */}
-      <section className="py-20">
-        <div className="container">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="font-serif text-3xl font-semibold">Featured Writings</h2>
-            <Link to="/writings/poems" className="text-sm text-primary hover:underline flex items-center gap-1">
-              View all <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredWritings.map((writing) => (
-              <Card key={writing.id} className="card-hover">
-                <CardContent className="p-6">
-                  <div className="flex gap-2 mb-3">
-                    {writing.tags.slice(0, 2).map(tag => (
-                      <span key={tag} className="text-xs px-2 py-1 rounded-full bg-secondary text-secondary-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="font-serif text-xl font-semibold mb-2">{writing.title}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{writing.excerpt}</p>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="capitalize">{writing.category}</span>
-                    <span>{writing.readTime} min read</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Journey Snapshot */}
-      <section className="py-20 bg-secondary/30">
-        <div className="container">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="font-serif text-3xl font-semibold">Journey Snapshot</h2>
-            <Link to="/journey" className="text-sm text-primary hover:underline flex items-center gap-1">
-              Full journey <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="space-y-6">
-            {journeyMilestones.slice(0, 4).map((milestone, index) => (
-              <div key={milestone.id} className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 rounded-full bg-primary" />
-                  {index < 3 && <div className="w-px h-full bg-border" />}
-                </div>
-                <div className="pb-6">
-                  <h3 className="font-serif text-lg font-semibold">{milestone.organization}</h3>
-                  <p className="text-sm text-muted-foreground">{milestone.role} • {milestone.period}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Main Content Area */}
+      <AnimatePresence mode="wait">
+        {mode === 'builder' ? (
+          <BuilderView key="builder" />
+        ) : (
+          <WriterView key="writer" />
+        )}
+      </AnimatePresence>
 
       {/* CTA Section */}
       <section className="py-20">
@@ -299,11 +111,9 @@ export default function Index() {
           <p className="text-muted-foreground mb-8">
             Whether you want to collaborate, invite me to speak, or just say hello—I'd love to hear from you.
           </p>
-          <Button asChild size="lg">
-            <Link to="/speaker">Get in Touch</Link>
-          </Button>
+          <ContactDialog />
         </div>
       </section>
-    </div>
+    </div >
   );
 }

@@ -75,8 +75,9 @@ export const navigation = [
   { id: 'home', label: 'Home', path: '/' },
   {
     id: 'writings',
-    label: 'Writings',
+    label: 'Writing',
     children: [
+      { id: 'writing-home', label: 'Writing Home', path: '/writing' },
       { id: 'poems', label: 'Poems', path: '/writings/poems' },
       { id: 'shayari', label: 'Shayari', path: '/writings/shayari' },
       { id: 'songs', label: 'Songs', path: '/writings/songs' },

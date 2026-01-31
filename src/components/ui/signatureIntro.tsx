@@ -28,6 +28,9 @@ export default function SignatureIntro({ onComplete }: SignatureIntroProps) {
         <div className={`preloader ${fadeOut ? 'preloader-fade-out' : ''}`}>
             <div className="preloader-content">
                 <div className="signature-animation">
+                    <div className="profile-photo-container">
+                        <img src="/images/pfp.jpeg" alt="Ravi Tilekar" className="profile-photo" />
+                    </div>
                     <div className="signature-text">Ravi Tilekar</div>
                 </div>
                 <div className="subtitle-animation">
