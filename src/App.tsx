@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import SignatureIntro from "@/components/ui/signatureIntro";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import CustomCursor from "@/components/ui/CustomCursor";
 import Index from "./pages/Index";
 import WritingsList from "./pages/WritingsList";
 import WritingDetail from "./pages/WritingDetail";
@@ -32,6 +34,8 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
+          <CustomCursor />
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Index />} />

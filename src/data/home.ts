@@ -65,10 +65,8 @@ export const highlightCards: HighlightCard[] = [
 ];
 
 export const socialLinks = [
-  { id: 'linkedin', label: 'LinkedIn', url: 'https://linkedin.com/in/ravitilekar', icon: 'Linkedin' },
-  { id: 'twitter', label: 'Twitter / X', url: 'https://twitter.com/ravitilekar', icon: 'Twitter' },
-  { id: 'instagram', label: 'Instagram', url: 'https://instagram.com/ravitilekar', icon: 'Instagram' },
-  { id: 'youtube', label: 'YouTube', url: 'https://youtube.com/@ravitilekar', icon: 'Youtube' },
+  { id: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/ravi-tilekar-53830a99', icon: 'Linkedin' },
+  { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/ravitilekar05?igsh=MXg3dWdlZWxsbGducQ==', icon: 'Instagram' },
 ];
 
 export const navigation = [

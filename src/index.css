@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -26,14 +26,6 @@
     --input: 45 10% 88%;
     --ring: 45 70% 47%;
     --radius: 0.5rem;
-    --sidebar-background: 45 20% 98%;
-    --sidebar-foreground: 0 0% 10%;
-    --sidebar-primary: 45 70% 47%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 45 10% 93%;
-    --sidebar-accent-foreground: 0 0% 10%;
-    --sidebar-border: 45 10% 88%;
-    --sidebar-ring: 45 70% 47%;
   }
 
   .dark {
@@ -56,18 +48,27 @@
     --border: 0 0% 20%;
     --input: 0 0% 20%;
     --ring: 45 70% 55%;
-    --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 45 20% 95%;
-    --sidebar-primary: 45 70% 55%;
-    --sidebar-primary-foreground: 0 0% 8%;
-    --sidebar-accent: 0 0% 18%;
-    --sidebar-accent-foreground: 45 20% 95%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 45 70% 55%;
   }
 }
 
 @layer base {
+
+  html,
+  body {
+    cursor: none;
+    scroll-behavior: smooth;
+  }
+
+  a,
+  button,
+  [role="button"],
+  input,
+  label,
+  select,
+  textarea {
+    cursor: none;
+  }
+
   * {
     @apply border-border;
   }
@@ -75,6 +76,10 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
   }
 
   h1,
@@ -101,13 +106,40 @@
     @apply scale-x-100 origin-bottom-left;
   }
 
-  .card-hover {
-    @apply transition-all duration-300 ease-out;
+  .perspective-1000 {
+    perspective: 1000px;
   }
 
-  .card-hover:hover {
-    @apply -translate-y-1 shadow-lg;
+  .transform-style-3d {
+    transform-style: preserve-3d;
   }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Preloader Styles */
@@ -126,8 +158,13 @@
   transition: opacity 0.5s ease-out;
 }
 
+.dark .preloader {
+  background: hsl(0 0% 8%);
+}
+
 .preloader-fade-out {
   opacity: 0;
+  pointer-events: none;
 }
 
 .preloader-content {
@@ -157,18 +194,6 @@
   animation: subtitleFadeIn 1.5s ease-out 0.3s backwards;
 }
 
-@keyframes contentFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .profile-photo-container {
   display: flex;
   justify-content: center;
@@ -185,11 +210,24 @@
   animation: photoFadeIn 1s ease-out;
 }
 
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes photoFadeIn {
   from {
     opacity: 0;
     transform: scale(0.8) translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -229,5 +267,44 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Infinite Scrolling Marquee */
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  animation: marquee 25s linear infinite;
+  width: max-content;
+  padding-left: 4rem;
+  /* Initial padding to offset */
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .marquee-content {
+    gap: 2rem;
+    animation: marquee 15s linear infinite;
   }
 }
